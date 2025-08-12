@@ -1,9 +1,10 @@
 # src/trayIcon.py
 
 from PyQt6.QtWidgets import QMainWindow, QSystemTrayIcon, QMenu
-from PyQt6.QtGui import QIcon, QAction
+from PyQt6.QtGui import QIcon, QAction, QPixmap
 from . import change_image
 import threading
+import os
 
 class TrayIcon(QMainWindow):
     def __init__(self, app):
@@ -19,6 +20,8 @@ class TrayIcon(QMainWindow):
     
     def _create_menu(self):
         self.menu = QMenu()
+
+        
         
         self.configurationMenu = QAction("Mudar imagem")
         self.configurationMenu.triggered.connect(self._set_background_image_threaded)
@@ -34,3 +37,7 @@ class TrayIcon(QMainWindow):
     def _set_background_image_threaded(self):
         thread = threading.Thread(target=change_image.main)
         thread.start()
+
+#    def get_first_image_from_directory(self):
+#        try:
+#            os.listdir()

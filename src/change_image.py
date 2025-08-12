@@ -2,9 +2,9 @@
 
 from os.path import isfile
 import iterm2
-import os
 import asyncio
 from random import randint
+from src.photo_util import PhotoUtil
 
 async def set_background_image(connection):
     app = await iterm2.async_get_app(connection)
@@ -23,15 +23,15 @@ async def set_background_image(connection):
         
     profile = await session.async_get_profile()
     #todo logica para pefar os elementos do diretorio e sortear 
+    photo_util = PhotoUtil()
     photos = []
     try:
-        current_dir = os.getcwd()
-        photos = os.listdir('./fotos')
+        photos = photo_util.list_all_photos()
     except FileNotFoundError:  
         print('errou')
         #todo fazer o erro retornar algo
         return
-    choosen_photo = current_dir + '/fotos/' + photos[randint(0, len(photos) - 1)]
+    choosen_photo = photos[randint(0, len(photos) - 1)]
 
     await profile.async_set_background_image_location(choosen_photo)
 
